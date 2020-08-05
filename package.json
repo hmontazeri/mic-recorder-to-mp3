@@ -1,6 +1,6 @@
 {
   "name": "stream-recorder-to-mp3",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Record your microphone stream object input and get an audio/mp3 ouput buffer/blob.",
   "main": "dist/index.js",
   "scripts": {
