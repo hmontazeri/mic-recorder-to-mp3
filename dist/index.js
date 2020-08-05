@@ -15822,7 +15822,7 @@ var MicRecorder = function () {
       // the begining of the recording. It also helps to remove the mouse
       // "click" sound from the output mp3 file.
       startRecordingAt: 300,
-      deviceId: null
+      stream: null
     };
 
     this.activeStream = null;
@@ -15841,7 +15841,7 @@ var MicRecorder = function () {
 
 
   createClass(MicRecorder, [{
-    key: 'addMicrophoneListener',
+    key: "addMicrophoneListener",
     value: function addMicrophoneListener(stream) {
       var _this = this;
 
@@ -15872,13 +15872,13 @@ var MicRecorder = function () {
       this.microphone.connect(this.processor);
       this.processor.connect(this.context.destination);
     }
-  }, {
-    key: 'stop',
-
 
     /**
      * Disconnect microphone, processor and remove activeStream
      */
+
+  }, {
+    key: "stop",
     value: function stop() {
       if (this.processor && this.microphone) {
         // Clean up the Web Audio API resources.
@@ -15887,28 +15887,24 @@ var MicRecorder = function () {
 
         // If all references using this.context are destroyed, context is closed
         // automatically. DOMException is fired when trying to close again
-        if (this.context && this.context.state !== 'closed') {
+        if (this.context && this.context.state !== "closed") {
           this.context.close();
         }
-
         this.processor.onaudioprocess = null;
-
         // Stop all audio tracks. Also, removes recording icon from chrome tab
-        this.activeStream.getAudioTracks().forEach(function (track) {
-          return track.stop();
-        });
+        // this.activeStream.getAudioTracks().forEach((track) => track.stop());
       }
 
       return this;
     }
-  }, {
-    key: 'start',
-
 
     /**
      * Requests access to the microphone and start recording
      * @return Promise
      */
+
+  }, {
+    key: "start",
     value: function start() {
       var _this2 = this;
 
@@ -15917,25 +15913,24 @@ var MicRecorder = function () {
       this.config.sampleRate = this.context.sampleRate;
       this.lameEncoder = new Encoder(this.config);
 
-      var audio = this.config.deviceId ? { deviceId: { exact: this.config.deviceId } } : true;
-
       return new Promise(function (resolve, reject) {
-        navigator.mediaDevices.getUserMedia({ audio: audio }).then(function (stream) {
-          _this2.addMicrophoneListener(stream);
-          resolve(stream);
-        }).catch(function (err) {
+        try {
+          if (_this2.config.stream == null) throw Error("stream not set");
+          _this2.addMicrophoneListener(_this2.config.stream);
+          resolve();
+        } catch (err) {
           reject(err);
-        });
+        }
       });
     }
-  }, {
-    key: 'getMp3',
-
 
     /**
      * Return Mp3 Buffer and Blob with type mp3
      * @return {Promise}
      */
+
+  }, {
+    key: "getMp3",
     value: function getMp3() {
       var _this3 = this;
 
@@ -15943,9 +15938,9 @@ var MicRecorder = function () {
 
       return new Promise(function (resolve, reject) {
         if (finalBuffer.length === 0) {
-          reject(new Error('No buffer to send'));
+          reject(new Error("No buffer to send"));
         } else {
-          resolve([finalBuffer, new Blob(finalBuffer, { type: 'audio/mp3' })]);
+          resolve([finalBuffer, new Blob(finalBuffer, { type: "audio/mp3" })]);
           _this3.lameEncoder.clearBuffer();
         }
       });
