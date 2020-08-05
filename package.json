@@ -1,17 +1,18 @@
 {
-  "name": "mic-recorder-to-mp3",
-  "version": "2.2.2",
-  "description": "Record your microphone audio input and get an audio/mp3 ouput buffer/blob.",
+  "name": "stream-recorder-to-mp3",
+  "version": "0.1.0",
+  "description": "Record your microphone stream object input and get an audio/mp3 ouput buffer/blob.",
   "main": "dist/index.js",
   "scripts": {
     "build": "rollup -c",
     "minify": "minify=true rollup -c",
     "watch": "rollup -c -w"
   },
-  "repository": "git@github.com:closeio/mic-recorder-to-mp3.git",
-  "author": "Djalma Araujo <djalma@close.io>",
+  "repository": "git@github.com/hmontazeri/mic-recorder-to-mp3",
+  "author": "Hamed Montazeri",
   "contributors": [
-    "Vitor Buzinaro <vitor@close.io>"
+    "Vitor Buzinaro <vitor@close.io>",
+    "Hamed Montazeri"
   ],
   "license": "MIT",
   "devDependencies": {
